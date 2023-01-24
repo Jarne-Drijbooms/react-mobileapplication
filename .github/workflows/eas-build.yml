@@ -75,3 +75,4 @@ jobs:
 
       - name: Submit to playstore
         run: npx eas-cli submit -p android --latest --non-interactive
+        
