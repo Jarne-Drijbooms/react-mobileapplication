@@ -36,10 +36,10 @@ jobs:
         run: npm ci
 
       - name: Authenticate git name
-        run: git config --global user.name "jonaswouters1"
+        run: git config --global user.name "Jarne-Drijbooms"
 
       - name: Authenticate git email
-        run: git config --global user.email "jonas1wouters@hotmail.com"
+        run: git config --global user.email "r0781657@student.thomasmore.be"
 
       - name: Build on EAS
         run: EAS_BUILD_AUTOCOMMIT=${{1}} npx eas-cli build --platform all --non-interactive
