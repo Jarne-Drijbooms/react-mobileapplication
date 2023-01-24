@@ -4,9 +4,9 @@ on:
     branches:
       - development
   workflow_dispatch:
-    
+
 jobs:
- build:
+  build:
     name: Install and build
     runs-on: ubuntu-latest
     steps:
