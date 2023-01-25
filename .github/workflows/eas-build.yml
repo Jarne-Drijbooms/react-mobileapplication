@@ -42,7 +42,7 @@ jobs:
         run: git config --global user.email "r0781657@student.thomasmore.be"
 
       - name: Build on EAS
-        run: EAS_BUILD_AUTOCOMMIT=${{1}} npx eas-cli build --platform android --profile preview
+        run: npm eas-cli build --platform android --non-interactive
 
   deploy:
     name: Deploy
