@@ -75,5 +75,5 @@ jobs:
 
       - name: Submit to playstore
         #run: npx eas-cli submit -p android --latest --non-interactive
-        run: npx eas-cli submit -p android --profile foobar
+        run: npx eas-cli submit -p android
         
