@@ -1,35 +1,76 @@
+name: EAS PIPELINE
 on:
   push:
     branches:
-      - main
+      - development
+  workflow_dispatch:
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    name: Install and build
+    runs-on: ubuntu-20.04
     steps:
-      - name: 🏗 Setup repo
-        uses: actions/checkout@v3
-
-      - name: 🏗 Setup Node
-        uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
-          node-version: 16.x
-          cache: npm
+          persist-credentials: false
 
-      - name: 🏗 Setup Expo and EAS
-        uses: expo/expo-github-action@v7
+      - name: Reconfigure git to use HTTP authentication
+        run: >
+          git config --global url."https://github.com/".insteadOf
+          ssh://git@github.com/
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
         with:
-          expo-version: latest
-          eas-version: latest
+          node-version: 14.x
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v6
+        with:
+          expo-version: 4.x
           token: ${{ secrets.EXPO_TOKEN }}
+          expo-cache: true
 
-      - name: 📦 Install dependencies
-        run: yarn install
+      - name: Install dependencies
+        run: npm ci
 
-      - name: 🚀 Build app
-        run: eas build -p android --non-interactive
-        
-      - name: Install expo CLI
-        run: npm install -g expo-cli
-        
-      - name: 🚀 Publish app
-        run: expo publish --non-interactive
+      - name: Authenticate git name
+        run: git config --global user.name "Jarne-Drijbooms"
+
+      - name: Authenticate git email
+        run: git config --global user.email "r0781657@student.thomasmore.be"
+
+      - name: Build on EAS
+        run: npx eas-cli build --platform android --non-interactive
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-20.04
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Reconfigure git to use HTTP authentication
+        run: >
+          git config --global url."https://github.com/".insteadOf
+          ssh://git@github.com/
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Setup Expo
+        uses: expo/expo-github-action@v6
+        with:
+          expo-version: 4.x
+          token: ${{ secrets.EXPO_TOKEN }}
+          expo-cache: true
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Submit to playstore
+        #run: npx eas-cli submit -p android --latest --non-interactive
+        run: npx eas-cli submit -p android --latest
