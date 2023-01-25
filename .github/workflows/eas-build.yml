@@ -73,6 +73,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Submit to playstore
-        run: npx eas-cli submit -p android --latest --non-interactive
+      #- name: Submit to playstore
+       # run: npx eas-cli submit -p android --latest --non-interactive
         
