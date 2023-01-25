@@ -42,7 +42,7 @@ jobs:
         run: git config --global user.email "r0781657@student.thomasmore.be"
 
       - name: Build on EAS
-        run: npx eas-cli build --platform android --profile preview #--non-interactive
+        run: npx eas-cli build --platform android --non-interactive
 
   deploy:
     name: Deploy
@@ -73,6 +73,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      #- name: Submit to playstore
-       # run: npx eas-cli submit -p android --latest --non-interactive
+      - name: Submit to playstore
+        run: npx eas-cli submit -p android --latest --non-interactive
         
