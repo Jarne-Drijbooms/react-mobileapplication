@@ -28,6 +28,10 @@ jobs:
          
      - name: Build APK
        run: npx eas-cli build --platform android --non-interactive
+       
+     - name: create path
+       run: mkdir app/build/outputs/apk/debug/app-debug.apk
+       
      - name: Upload APK
        uses: actions/upload-artifact@v1
        with:
